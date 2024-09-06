@@ -65,7 +65,7 @@ pipeline {
             // Email notifications for Unit and Integration Tests and Security Scan stages
             script {
                 if (env.STAGE_NAME == 'Unit and Integration Tests' || env.STAGE_NAME == 'Security Scan') {
-                    emailext to: "your-email@example.com",
+                    emailext to: "mankirtkharaud@gmail.com",
                         subject: "Jenkins Pipeline: ${env.STAGE_NAME} Stage ${currentBuild.currentResult}",
                         body: "The ${env.STAGE_NAME} stage has ${currentBuild.currentResult}. Please check the attached logs.",
                         attachLog: true
