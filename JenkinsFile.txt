@@ -4,73 +4,84 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Building the code using Maven."
-                // Example tool: Maven
+                script {
+                    echo "Building the code using Maven."
+                    // Add actual Maven build command here
+                    // Example: sh 'mvn clean install'
+                }
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
-                echo "Running unit tests and integration tests using JUnit."
-                // Example tool: JUnit
+                script {
+                    echo "Running unit tests and integration tests using JUnit."
+                    // Add actual test command here
+                    // Example: sh 'mvn test'
+                }
             }
         }
 
         stage('Code Analysis') {
             steps {
-                echo "Analyzing code quality using SonarQube."
-                // Example tool: SonarQube
+                script {
+                    echo "Analyzing code quality using SonarQube."
+                    // Add actual SonarQube analysis command here
+                    // Example: sh 'mvn sonar:sonar'
+                }
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo "Performing security scan using OWASP Dependency-Check."
-                // Example tool: OWASP Dependency-Check
+                script {
+                    echo "Performing security scan using OWASP Dependency-Check."
+                    // Add actual security scan command here
+                    // Example: sh 'dependency-check --project MyProject --scan .'
+                }
             }
         }
 
         stage('Deploy to Staging') {
             steps {
-                echo "Deploying the application to staging server (AWS EC2)."
-                // Example tool: AWS CLI
+                script {
+                    echo "Deploying the application to staging server (AWS EC2)."
+                    // Add actual deployment command here
+                    // Example: sh 'aws deploy create-deployment --application-name MyApp --deployment-group-name MyStagingGroup --s3-location bucket=mybucket,key=myapp.zip'
+                }
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                echo "Running integration tests on the staging environment using Selenium."
-                // Example tool: Selenium
+                script {
+                    echo "Running integration tests on the staging environment using Selenium."
+                    // Add actual integration test command here
+                    // Example: sh 'run-integration-tests.sh'
+                }
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo "Deploying the application to production server (AWS EC2)."
-                // Example tool: AWS CLI
+                script {
+                    echo "Deploying the application to production server (AWS EC2)."
+                    // Add actual deployment command here
+                    // Example: sh 'aws deploy create-deployment --application-name MyApp --deployment-group-name MyProductionGroup --s3-location bucket=mybucket,key=myapp.zip'
+                }
             }
         }
     }
 
     post {
-        success {
-            echo 'Pipeline completed successfully.'
-        }
-
-        failure {
-            echo 'Pipeline failed.'
-        }
-
         always {
-            // Email notifications for Unit and Integration Tests and Security Scan stages
             script {
-                if (env.STAGE_NAME == 'Unit and Integration Tests' || env.STAGE_NAME == 'Security Scan') {
-                    emailext to: "mankirtkharaud@gmail.com",
-                        subject: "Jenkins Pipeline: ${env.STAGE_NAME} Stage ${currentBuild.currentResult}",
-                        body: "The ${env.STAGE_NAME} stage has ${currentBuild.currentResult}. Please check the attached logs.",
-                        attachLog: true
-                }
+                emailext to: "mankirtkharaud@gmail.com",
+                    subject: "Jenkins Pipeline Status: ${currentBuild.currentResult}",
+                    body: "The Jenkins pipeline has completed with the status: ${currentBuild.currentResult}. Please check the attached logs for details.",
+                    attachLog: true
             }
         }
     }
 }
+
